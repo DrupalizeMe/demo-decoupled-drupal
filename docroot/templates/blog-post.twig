@@ -1,0 +1,14 @@
+<div class="blog-post">
+  <div class="media">
+    <div class="media-body">
+      <div class="media-heading">
+        <h2 class="blog-post-title"><a href="#post/{{ post.id }}">{{ post.title }}</a></h2>
+        <p class="blog-post-meta">{{ post.date }} by {{ post.author }}</p>
+      </div>
+    </div>
+    <div class="media-right">
+      <img src="{{ post.image }}" />
+    </div>
+  </div>
+  <div class="media-body">{{ post.body }}</div>
+</div>
