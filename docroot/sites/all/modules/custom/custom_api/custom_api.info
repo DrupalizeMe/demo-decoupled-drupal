@@ -1,0 +1,3 @@
+name = API
+description = A module to provide API support for our blog.
+core = 7.x

@@ -1,0 +1,121 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ *
+ * Provide the page callbacks for our API endpoints.
+ */
+function custom_api_menu() {
+  $items = array();
+
+  // List the types of entities our API knows about.
+  $items['custom_api'] = array(
+    'page callback' => 'custom_api_types',
+    'access callback' => TRUE,
+  );
+  // Provide the schema for each entity bundle.
+  $items['custom_api/schema/%'] = array(
+    'page callback' => 'custom_api_type',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+  );
+  // Provide a list of a particular entity type.
+  $items['custom_api/list/%'] = array(
+    'page callback' => 'custom_api_list',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+  );
+  // Provide a single blog post entity.
+  $items['custom_api/item/%node'] = array(
+    'page callback' => 'custom_api_item',
+    'page arguments' => array(2),
+    'access callback' => 'custom_api_access',
+    'access arguments' => array(2),
+  );
+
+  return $items;
+}
+
+/**
+ * Access callback for our custom API.
+ */
+function custom_api_access($node) {
+  // Check and see if the user should have access to this node.
+  // We're hard coding the 'view' operation here, but this could be switched
+  // depending on incoming request data too.
+  // We don't need to pass along user, or account information because
+  // node_access already does that for us.
+  return node_access('view', $node);
+}
+
+/**
+ * Page callback for custom_api.
+ */
+function custom_api_types() {
+  return drupal_json_output(node_type_get_names());
+}
+
+/**
+ * Page callback for custom_api/schema/%TYPE.
+ */
+function custom_api_type($type) {
+  // Find the properties for this bundle.
+  $node_info = entity_get_info('node');
+  $properties = $node_info['base table field types'];
+  // Retrieve information about the fields as well.
+  if ($fields = field_info_instances('node', $type)) {
+    // Merge the two and return info about this entity type.
+    return drupal_json_output(array_merge($properties, $fields));
+  }
+  else {
+    return drupal_not_found();
+  }
+}
+
+/**
+ * Page callback for custom_api/list/%TYPE.
+ */
+function custom_api_list($type, $limit = 15, $offset = 0) {
+  // Check for $offset and $limit via the query parameter.
+  // @TODO Document this API feature.
+  $q = drupal_get_query_parameters();
+  if (isset($q['offset'])) {
+    $offset = $q['offset'];
+  }
+  if (isset($q['limit'])) {
+    $limit = $q['limit'];
+  }
+
+  $nodes = custom_api_node_load_by_type($type, $limit, $offset);
+
+  if ($nodes) {
+    $output = array(
+      'data' => $nodes
+    );
+    return drupal_json_output($output);
+  }
+  else {
+    return drupal_not_found();
+  }
+}
+
+/**
+ * Page callback for custom_api/item/%ID.
+ */
+function custom_api_item($node) {
+  return drupal_json_output($node);
+}
+
+
+/**
+ * Helper function to load a particular number of nodes by type.
+ */
+function custom_api_node_load_by_type($type, $limit = 15, $offset = 0) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', $type)
+    ->range($offset, $limit);
+  $results = $query->execute();
+
+  return node_load_multiple(array_keys($results['node']));
+}
