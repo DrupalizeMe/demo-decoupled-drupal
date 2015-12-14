@@ -1,0 +1,6 @@
+<h4>Elsewhere</h4>
+<ol class="list-unstyled">
+  {% for link in links %}
+    <li><a href="{{ link.href }}">{{ link.title }}</a></li>
+  {% endfor %}
+</ol>
