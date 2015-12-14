@@ -34,14 +34,28 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="./js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/js/vendor/jquery-ui.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/vendor/underscore.js"></script>
-
-    </script>
+    <script src="./js/vendor/backbone.js"></script>
 
     <script type="text/javascript">
       var App = function() {
         this.apiBaseUrl = 'http://blog.local/api/v1.0';
+
+        // Set up our application's router.
+        var Router = Backbone.Router.extend({
+          routes: {
+            'posts/:page': 'getPostListing',
+            'post/:id': 'getPost',
+            'about': 'getAbout',
+            'archive/*date': 'getArchive',
+            // Get the post listing by default, and if we hit a 404
+            '*404': 'getPostListing'
+          }
+        });
+
+        this.router = new Router();
 
         return this;
       };
@@ -74,11 +88,35 @@
         })
       };
 
-      App.prototype.getPostListing = function() {
+      App.prototype.getPostListing = function(pagerId) {
         var POSTS_PER_PAGE = 5;
         var url = this.apiBaseUrl + '/blog?range=' + POSTS_PER_PAGE + '&sort=-created';
+        // Track whether we've rendered blog posts yet.
+        var rendered = (jQuery('#blog-main').html() == undefined) ? false: true;
+
+        // If we have a pagerId, and we've already rendered the post listing,
+        // we should remove the existing pager, scroll to the top of the page,
+        // and display a loading message.
+        if (pagerId) {
+          if (rendered) {
+            jQuery('.pager').remove();
+            window.scrollTo(0, 0);
+            jQuery('#blog-main').html('<h2>Loading...</h2>').effect('highlight', 'slow');
+          }
+          // Add the number of pages of offset to our API url.
+          url += '&page=' + pagerId;
+        }
 
         jQuery.get(url, function(response) {
+          // Check whether we need a pager.
+          var pager = {};
+          if (response.hasOwnProperty('next')) {
+            pager.next = response.next.href.split('page=')[1];
+          }
+          if (response.hasOwnProperty('previous')) {
+            pager.previous = response.previous.href.split('page=')[1];
+          }
+
           // We'll need to tidy up the post data for our purposes.
           var posts = [];
 
@@ -92,19 +130,146 @@
               body: post.body,
             })
           });
-
-          var template = twig({
-            id: 'blog-main',
-            href: 'templates/blog-post-listing.twig',
-            async: true,
-            load: function(template) {
-              jQuery('#blog-main').html(template.render({ posts: posts }));
-            }
-          });
+          // If this is the first page, we need to load and render the template.
+          if (!rendered) {
+            var template = twig({
+              id: 'blog-main',
+              href: 'templates/blog-post-listing.twig',
+              async: true,
+              load: function(template) {
+                jQuery('#blog-main').html(template.render({ posts: posts, pager: pager }));
+              }
+            });
+          }
+          // If it's not, we already have the template loaded, and can just append to it.
+          else {
+            jQuery('#blog-main').html(twig({ ref: 'blog-main' }).render({ posts: posts, pager: pager }));
+          }
         });
       };
 
+      App.prototype.getPost = function(id) {
+        var rendered = (jQuery('#blog-main').html() == undefined) ? false : true;
+        var url = this.apiBaseUrl + '/blog/' + id;
+
+        jQuery.get(url, function (response) {
+          var posts = [];
+
+          response.data.forEach(function(post, i, allPosts) {
+            posts.push({
+              id: post.id,
+              title: post.title,
+              date: post.post_date,
+              author: post.author,
+              image: post.avatar,
+              body: post.body,
+            })
+          });
+
+          // If this is the first page, we need to load and render the template.
+          if (!rendered) {
+            var template = twig({
+              id: 'blog-main',
+              href: 'templates/blog-post-listing.twig',
+              async: true,
+              load: function(template) {
+                jQuery('#blog-main').html(template.render({ posts: posts }));
+              }
+            });
+          }
+          // If it's not, we already have the template loaded, and can just append to it.
+          else {
+            jQuery('#blog-main').html(twig({ ref: 'blog-main' }).render({ posts: posts }));
+          }
+        });
+      }
+
+      App.prototype.getArchive = function(date) {
+        date = date.split('/');
+        var year = date[0];
+        var month = date[1];
+        var rendered = (jQuery('#blog-main').html() == undefined) ? false : true;
+
+        // We need the month's beginning and ending timestamps to construct
+        // the filter for our API request.
+        // Starting timestamp (month is zero based)
+        var d = new Date();
+        d.setMonth(month - 1);
+        d.setYear(year);
+        d.setDate('01');
+        d.setHours('00');
+        d.setMinutes('00');
+        d.setSeconds('00');
+        var startTime = Math.round(d.getTime() / 1000);
+        // Get a similar timestamp for the beginning of the _next_ month.
+        var nextDate = new Date();
+        nextDate.setMonth(month);
+        nextDate.setYear(year);
+        nextDate.setDate('01');
+        nextDate.setHours('00');
+        nextDate.setMinutes('00');
+        nextDate.setSeconds('00');
+        var nextTime = Math.round(nextDate.getTime() / 1000);
+        // Get unixtimestamps for date to construct the appropriate API filter URL.
+        var url = this.apiBaseUrl + '/blog?filter[created][value][0]=' + startTime +'&filter[created][operator][0]=">="';
+        url += '&filter[created][value][1]=' + nextTime + '&filter[created][operator][1]="<="';
+        url += '&sort=created';
+
+        jQuery.get(url, function(response) {
+          var posts = [];
+
+          response.data.forEach(function(post, i, allPosts) {
+            posts.push({
+              id: post.id,
+              title: post.title,
+              date: post.post_date,
+              author: post.author,
+              image: post.avatar,
+              body: post.body,
+            })
+          });
+
+          if (rendered) {
+            jQuery('#blog-main').html(twig({ ref: 'blog-main' }).render({ posts: posts }));
+          }
+          else {
+            var template = twig({
+              id: 'blog-main',
+              href: 'templates/blog-post-listing.twig',
+              async: true,
+              load: function(template) {
+                jQuery('#blog-main').html(template.render({ posts: posts }));
+              }
+            });
+          }
+        });
+      }
+
       var App = new App();
+
+      App.router.on('route:getPostListing', function(pageId) {
+        App.getPostListing(pageId);
+      });
+      App.router.on('route:getPost', function(id) {
+        App.getPost(id);
+      });
+      App.router.on('route:getAbout', function() {
+        window.scrollTo(0,0);
+        var template = twig({
+          id: 'about',
+          href: 'templates/about.twig',
+          async: true,
+          load: function(template) {
+            App.clear();
+            jQuery('#blog-main').html(template.render({}));
+          }
+        })
+      });
+      App.router.on('route:getArchive', function(date) {
+        App.getArchive(date);
+      })
+
+      Backbone.history.start();
 
       jQuery.get(App.apiBaseUrl + '/siteinfo?filter[name][value]=site&filter[name][operator]=%3E=', function(response) {
         // Filter the response for only the info we actually care about.
@@ -128,8 +293,6 @@
             // Now that we have the main layout rendered, update the other data on the page too.
             App.aboutSidebar();
             App.elsewhereLinks();
-            App.clear();
-            App.getPostListing();
           }
         });
       });

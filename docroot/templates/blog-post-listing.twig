@@ -1,3 +1,16 @@
 {% for post in posts %}
   {% include 'blog-post.twig' with post %}
 {% endfor %}
+
+{% if pager %}
+  <nav>
+    <ul class="pager">
+      {% if pager.previous %}
+        <li><a href="#posts/{{ pager.previous }}">Previous</a></li>
+      {% endif %}
+      {% if pager.next %}
+        <li><a href="#posts/{{ pager.next }}">Next</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
