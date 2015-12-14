@@ -1,0 +1,369 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Decoupled Blog API</title><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><style>@import url(http://fonts.googleapis.com/css?family=Roboto:400,700|Inconsolata|Raleway:200);.hljs-comment,.hljs-title{color:#8e908c}.hljs-variable,.hljs-attribute,.hljs-tag,.hljs-regexp,.ruby .hljs-constant,.xml .hljs-tag .hljs-title,.xml .hljs-pi,.xml .hljs-doctype,.html .hljs-doctype,.css .hljs-id,.css .hljs-class,.css .hljs-pseudo{color:#c82829}.hljs-number,.hljs-preprocessor,.hljs-pragma,.hljs-built_in,.hljs-literal,.hljs-params,.hljs-constant{color:#f5871f}.ruby .hljs-class .hljs-title,.css .hljs-rules .hljs-attribute{color:#eab700}.hljs-string,.hljs-value,.hljs-inheritance,.hljs-header,.ruby .hljs-symbol,.xml .hljs-cdata{color:#718c00}.css .hljs-hexcolor{color:#3e999f}.hljs-function,.python .hljs-decorator,.python .hljs-title,.ruby .hljs-function .hljs-title,.ruby .hljs-title .hljs-keyword,.perl .hljs-sub,.javascript .hljs-title,.coffeescript .hljs-title{color:#4271ae}.hljs-keyword,.javascript .hljs-function{color:#8959a8}.hljs{display:block;background:white;color:#4d4d4c;padding:.5em}.coffeescript .javascript,.javascript .xml,.tex .hljs-formula,.xml .javascript,.xml .vbscript,.xml .css,.xml .hljs-cdata{opacity:.5}body{color:black;background:white;font-family:'Roboto',Helvetica,sans-serif;font-size:14px;line-height:1.42}header{border-bottom:1px solid #f2f2f2;margin-bottom:12px}h1,h2,h3,h4,h5{color:black;margin:12px 0}h1 .permalink,h2 .permalink,h3 .permalink,h4 .permalink,h5 .permalink{margin-left:6px;opacity:0;transition:opacity .25s ease}h1:hover .permalink,h2:hover .permalink,h3:hover .permalink,h4:hover .permalink,h5:hover .permalink{opacity:1}h1{font-family:'Raleway',Helvetica,sans-serif;font-size:36px;font-weight:500}h2{font-family:'Raleway',Helvetica,sans-serif;font-size:30px;font-weight:500}h3{font-size:100%;text-transform:uppercase}h5{font-size:100%;font-weight:normal}p{margin:0 0 10px}p.choices{line-height:1.6}a{color:#428bca;text-decoration:none}li p{margin:0}dl dt{float:left;width:160px;clear:left;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-left:180px}blockquote{color:rgba(0,0,0,0.5);font-size:15.5px;padding:10px 20px;margin:12px 0;border-left:5px solid #e8e8e8}blockquote p:last-child{margin-bottom:0}pre{background-color:#f5f5f5;padding:12px;border:1px solid #cfcfcf;border-radius:6px}pre code{background-color:transparent;padding:0;border:none}code{color:#444;background-color:#f5f5f5;font-family:'Inconsolata',monospace;padding:1px 4px;border:1px solid #cfcfcf;border-radius:3px}ul,ol{padding-left:2em}table{border-collapse:collapse;border-spacing:0;margin-bottom:12px}table tr:nth-child(2n){background-color:#fafafa}table th,table td{padding:6px 12px;border:1px solid #d9d9d9}nav{position:fixed;top:24px;bottom:0;overflow-y:auto}nav .resource-group{padding:0}nav .resource-group .heading{position:relative}nav .resource-group .heading .chevron{position:absolute;top:12px;right:12px;opacity:.5}nav .resource-group .heading a{display:block;color:black;opacity:.7;border-left:2px solid transparent;margin:0}nav .resource-group .heading a:hover{border-left:2px solid black}nav ul{list-style-type:none;padding-left:0}nav ul a{display:block;font-size:13px;color:rgba(0,0,0,0.7);padding:8px 12px;border-top:1px solid #d9d9d9;border-left:2px solid transparent;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}nav ul a:hover{border-left:2px solid black}nav ul>li{margin:0}nav ul>li:first-child{margin-top:-12px}nav ul>li:last-child{margin-bottom:-12px}nav ul ul a{padding-left:24px}nav ul ul li{margin:0}nav ul ul li:first-child{margin-top:0}nav ul ul li:last-child{margin-bottom:0}nav>div>div>ul>li:first-child>a{border-top:none}.preload *{transition:none !important}.pull-left{float:left}.pull-right{float:right}.badge{display:inline-block;float:right;min-width:10px;min-height:14px;padding:3px 7px;font-size:12px;color:#000;background-color:#f2f2f2;border-radius:10px;margin-top:-2px;margin-bottom:-2px}.badge.get{color:#70bbe1;background-color:#d9edf7}.badge.head{color:#70bbe1;background-color:#d9edf7}.badge.options{color:#70bbe1;background-color:#d9edf7}.badge.put{color:#f0db70;background-color:#fcf8e3}.badge.patch{color:#f0db70;background-color:#fcf8e3}.badge.post{color:#93cd7c;background-color:#dff0d8}.badge.delete{color:#ce8383;background-color:#f2dede}.collapse-button{float:right}.collapse-button .close{display:none;color:#428bca;cursor:pointer}.collapse-button .open{color:#428bca;cursor:pointer}.collapse-button.show .close{display:inline}.collapse-button.show .open{display:none}.collapse-content{max-height:0;overflow:hidden;transition:max-height .3s ease-in-out}nav{width:220px}.container{max-width:940px;margin-left:auto;margin-right:auto}.container .row .content{margin-left:244px;width:696px}.container .row:after{content:'';display:block;clear:both}.container-fluid nav{width:22%}.container-fluid .row .content{margin-left:24%;width:76%}@media (max-width:1200px){nav{width:200px}.container{max-width:840px}.container .row .content{margin-left:224px;width:606px}}@media (max-width:992px){nav{width:170px}.container{max-width:720px}.container .row .content{margin-left:194px;width:526px}}@media (max-width:768px){nav{display:none}.container{width:95%;max-width:none}.container .row .content,.container-fluid .row .content{margin-left:auto;margin-right:auto;width:95%}}.back-to-top{position:fixed;z-index:1;bottom:0;right:24px;padding:4px 8px;color:rgba(0,0,0,0.5);background-color:#f2f2f2;text-decoration:none !important;border-top:1px solid #d9d9d9;border-left:1px solid #d9d9d9;border-right:1px solid #d9d9d9;border-top-left-radius:3px;border-top-right-radius:3px}.resource-group{padding:12px;margin-bottom:12px;background-color:white;border:1px solid #d9d9d9;border-radius:6px}.resource-group h2.group-heading,.resource-group .heading a{padding:12px;margin:-12px -12px 12px -12px;background-color:#f2f2f2;border-bottom:1px solid #d9d9d9;border-top-left-radius:6px;border-top-right-radius:6px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}nav .resource-group .heading a{margin-bottom:0}nav .resource-group .collapse-content{padding:0}.action{margin-bottom:12px;padding:12px 12px 0 12px;overflow:hidden;border:1px solid transparent;border-radius:6px}.action h4{padding:12px;margin:-12px -12px 12px -12px;border-bottom:1px solid transparent;border-top-left-radius:6px;border-top-right-radius:6px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.action h4 .name{float:right;font-weight:normal}.action h4 .method{padding:6px 12px;margin-right:12px;border-radius:3px}.action h4 .method.get{color:#fff;background-color:#337ab7}.action h4 .method.head{color:#fff;background-color:#337ab7}.action h4 .method.options{color:#fff;background-color:#337ab7}.action h4 .method.put{color:#000;background-color:#f0ad4e}.action h4 .method.patch{color:#000;background-color:#f0ad4e}.action h4 .method.post{color:#fff;background-color:#5cb85c}.action h4 .method.delete{color:#fff;background-color:#d9534f}.action h4 code{color:#444;background-color:#f5f5f5;border-color:#cfcfcf;font-weight:normal}.action dl.inner{padding-bottom:2px}.action .title{border-bottom:1px solid white;margin:0 -12px -1px -12px;padding:12px}.action.get{border-color:#bce8f1}.action.get h4{color:#337ab7;background:#d9edf7;border-bottom-color:#bce8f1}.action.head{border-color:#bce8f1}.action.head h4{color:#337ab7;background:#d9edf7;border-bottom-color:#bce8f1}.action.options{border-color:#bce8f1}.action.options h4{color:#337ab7;background:#d9edf7;border-bottom-color:#bce8f1}.action.post{border-color:#d6e9c6}.action.post h4{color:#5cb85c;background:#dff0d8;border-bottom-color:#d6e9c6}.action.put{border-color:#faebcc}.action.put h4{color:#f0ad4e;background:#fcf8e3;border-bottom-color:#faebcc}.action.patch{border-color:#faebcc}.action.patch h4{color:#f0ad4e;background:#fcf8e3;border-bottom-color:#faebcc}.action.delete{border-color:#ebccd1}.action.delete h4{color:#d9534f;background:#f2dede;border-bottom-color:#ebccd1}</style></head><body class="preload"><a href="#top" class="text-muted back-to-top"><i class="fa fa-toggle-up"></i>&nbsp;Back to top</a><div class="container"><div class="row"><nav><div class="resource-group"><div class="heading"><div class="chevron"><i class="open fa fa-angle-down"></i></div><a href="#">Resource Group</a></div><div class="collapse-content"><ul><li><a href="#-decoupled-blog-demo">Decoupled Blog Demo</a><ul></ul></li><li><a href="#-api-entry-point-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>API Data</a></li><li><a href="#-users-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Retrieve users</a></li><li><a href="#-users-by-id-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Retrieve a user</a></li><li><a href="#-blog-posts-get"><span class="badge get"><i class="fa fa-arrow-down"></i></span>Retrieve posts</a></li></ul></div></div><p style="text-align: center; word-wrap: break-word;"><a href="http://blog.local">http://blog.local</a></p></nav><div class="content"><header><h1 id="top">Decoupled Blog API</h1></header><section id="" class="resource-group"><h2 class="group-heading">Resource Group<a href="#" class="permalink">&para;</a></h2><div id="-decoupled-blog-demo" class="resource"><h3>Decoupled Blog Demo<a href="#-decoupled-blog-demo" class="permalink">&para;</a></h3><p>This is a simple API that allows our Drupal blog to expose enough data to build a simple decoupled blog.</p>
+<p>This resource lists the available API endpoints.</p>
+<p>Currently these include: users, login_cookie, csrf_token, siteinfo,
+blog_post, and menus.</p>
+<p>This information is also available at /api/v1.0 which would allow us to version the API in the future, as changes are necessary.</p>
+</div><div id="-api-entry-point" class="resource"><h3>API Entry Point<a href="#-api-entry-point" class="permalink">&para;</a></h3><div id="-api-entry-point-get" class="action get"><h4><div class="name">API Data</div><a href="#-api-entry-point-get" class="method get">GET</a><code class="uri">/api/v1.0</code></h4><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">data</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"User"</span></span>,
+      "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Export the \"User\" entity."</span></span>,
+      "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"users__1_0"</span></span>,
+      "<span class="hljs-attribute">resource</span>": <span class="hljs-value"><span class="hljs-string">"users"</span></span>,
+      "<span class="hljs-attribute">major_version</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+      "<span class="hljs-attribute">minor_version</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/users"</span>
+    </span>},
+    {
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Login"</span></span>,
+      "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Login a user and return a JSON along with the authentication cookie."</span></span>,
+      "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"login_cookie__1_0"</span></span>,
+      "<span class="hljs-attribute">resource</span>": <span class="hljs-value"><span class="hljs-string">"login_cookie"</span></span>,
+      "<span class="hljs-attribute">major_version</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+      "<span class="hljs-attribute">minor_version</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/login"</span>
+    </span>},
+    {
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"CSRF token"</span></span>,
+      "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Export the CSRF token unique for each user."</span></span>,
+      "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"csrf_token"</span></span>,
+      "<span class="hljs-attribute">resource</span>": <span class="hljs-value"><span class="hljs-string">"csrf_token"</span></span>,
+      "<span class="hljs-attribute">major_version</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+      "<span class="hljs-attribute">minor_version</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/session/token"</span>
+    </span>},
+    {
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Site information"</span></span>,
+      "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Expose some basic site information"</span></span>,
+      "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"siteinfo__1_0"</span></span>,
+      "<span class="hljs-attribute">resource</span>": <span class="hljs-value"><span class="hljs-string">"siteinfo"</span></span>,
+      "<span class="hljs-attribute">major_version</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+      "<span class="hljs-attribute">minor_version</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/siteinfo"</span>
+    </span>},
+    {
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Blog Post"</span></span>,
+      "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Export the blog_post content type."</span></span>,
+      "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"blog_post"</span></span>,
+      "<span class="hljs-attribute">resource</span>": <span class="hljs-value"><span class="hljs-string">"blog"</span></span>,
+      "<span class="hljs-attribute">major_version</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+      "<span class="hljs-attribute">minor_version</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/blog"</span>
+    </span>},
+    {
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Menus"</span></span>,
+      "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">"Expose the menu structures"</span></span>,
+      "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"menus__1_0"</span></span>,
+      "<span class="hljs-attribute">resource</span>": <span class="hljs-value"><span class="hljs-string">"menus"</span></span>,
+      "<span class="hljs-attribute">major_version</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+      "<span class="hljs-attribute">minor_version</span>": <span class="hljs-value"><span class="hljs-number">0</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/menus"</span>
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">6</span></span>,
+  "<span class="hljs-attribute">self</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Self"</span></span>,
+    "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api"</span>
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="-users" class="resource"><h3>Users<a href="#-users" class="permalink">&para;</a></h3><p>A list of User resources. A call to /users will list user objects.</p>
+<div id="-users-get" class="action get"><h4><div class="name">Retrieve users</div><a href="#-users-get" class="method get">GET</a><code class="uri">/api/v1.0/users{?range}</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>range</dt><dd><code>number</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>5</span></span></dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">data</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"1"</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"admin"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/users/1"</span></span>,
+      "<span class="hljs-attribute">mail</span>": <span class="hljs-value"><span class="hljs-string">"blog@example.com"</span>
+    </span>},
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"4"</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"tevoke"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/users/4"</span></span>,
+      "<span class="hljs-attribute">mail</span>": <span class="hljs-value"><span class="hljs-string">"tevoke@blog.local.invalid"</span>
+    </span>},
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"5"</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"thabrufracr"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/users/5"</span></span>,
+      "<span class="hljs-attribute">mail</span>": <span class="hljs-value"><span class="hljs-string">"thabrufracr@blog.local.invalid"</span>
+    </span>},
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"6"</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"stacle"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/users/6"</span></span>,
+      "<span class="hljs-attribute">mail</span>": <span class="hljs-value"><span class="hljs-string">"stacle@blog.local.invalid"</span>
+    </span>},
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"7"</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"besliwraphu"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/users/7"</span></span>,
+      "<span class="hljs-attribute">mail</span>": <span class="hljs-value"><span class="hljs-string">"besliwraphu@blog.local.invalid"</span>
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">12385</span></span>,
+  "<span class="hljs-attribute">self</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Self"</span></span>,
+    "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/users"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">next</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Next"</span></span>,
+    "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/users?range=5&amp;page=2"</span>
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="-users-by-id" class="resource"><h3>Users by id<a href="#-users-by-id" class="permalink">&para;</a></h3><div id="-users-by-id-get" class="action get"><h4><div class="name">Retrieve a user</div><a href="#-users-by-id-get" class="method get">GET</a><code class="uri">/api/v1.0/users/{id}</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>id</dt><dd><code>number</code>&nbsp;<span class="required">(required)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>1</span></span></dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">data</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"1"</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"admin"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/users/1"</span></span>,
+      "<span class="hljs-attribute">mail</span>": <span class="hljs-value"><span class="hljs-string">"blog@example.com"</span>
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">self</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Self"</span></span>,
+    "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/users/1"</span>
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div><div id="-blog-posts" class="resource"><h3>Blog Posts<a href="#-blog-posts" class="permalink">&para;</a></h3><p>A list of blog posts. You can use the optional range parameter to limit the number of results that are returned.</p>
+<div id="-blog-posts-get" class="action get"><h4><div class="name">Retrieve posts</div><a href="#-blog-posts-get" class="method get">GET</a><code class="uri">/api/v1.0/blog{?range}</code></h4><div class="title"><strong>Parameters</strong><div class="collapse-button show"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><dl class="inner"><dt>range</dt><dd><code>number</code>&nbsp;<span>(optional)</span>&nbsp;<span class="text-muted example"><strong>Example:&nbsp;</strong><span>5</span></span></dd></dl></div><div class="title"><strong>Response&nbsp;&nbsp;<code>200</code></strong><div class="collapse-button"><span class="close">Hide</span><span class="open">Show</span></div></div><div class="collapse-content"><div class="inner"><h5>Headers</h5><pre><code><span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">application/json; charset=utf-8</span></code></pre><div style="height: 1px;"></div><h5>Body</h5><pre><code>{
+  "<span class="hljs-attribute">data</span>": <span class="hljs-value">[
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">151</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"The Command Line Basics Series"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/blog/151"</span></span>,
+      "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"The Command Line Basics Series"</span></span>,
+      "<span class="hljs-attribute">body</span>": <span class="hljs-value"><span class="hljs-string">"&lt;p&gt;&lt;img class=\"left\" src=\"http://drupalize.me/sites/drupalize.me/files/videola_blog_post_files/icon_terminal.png\" /&gt;In the last few weeks you may have noticed we've been releasing a series of free videos about using the command line: Command Line Basics. There are a total of 12 videos in the series, each only between 6 to 15 minutes long, and we'll be continuing to release them over the coming weeks until we get them all out there. The entire series will be free. These videos were originally created for Lullabot.com but we decided they were such useful videos that we wanted to make sure our Drupalize.me members got a chance to see them, as well as have extra niceties, like being able to add them to your queue.&lt;/p&gt;\n&lt;p&gt;The Command Line Basics series covers a lot of the basic tasks that you need to use a *nix command line (like Linux and Unix, even Mac OS X since that is a Unix-based operating system). Many people come to learning the command line much like I did, out of necessity, not desire. I was tossed into situations where I had to log in to a server and didn't have all of my comfortable GUI tools to help me. I made these videos with a complete beginner in mind, although I found some new tricks along the way while making them, and even if you are comfortable on the command line you may find a trick or two worth keeping as well.&lt;/p&gt;\n&lt;p&gt;This series starts out with simple tasks like just getting around and moving your files. It then goes on to cover permissions, archiving (zip and tar), symbolic links, connecting to a remote server securely (ssh and scp), and searching (locate, find and grep). There are also three videos to cover the basics of using the command line text editor vi (and vim), which I found to be essential when I was thrown onto the servers. The series finishes up with a video about all kinds of keyboard shortcuts you can use to speed things up.&lt;/p&gt;\n&lt;p&gt;You can find the series in our new &lt;a href=\"http://drupalize.me/videos/cat/272\"&gt;Tools &amp;amp; Tips&lt;/a&gt; video category. I hope you find the series as useful as I do (I sometimes still refer to my own videos :-)) and I look forward to getting more videos out the door soon.&lt;/p&gt;\n"</span></span>,
+      "<span class="hljs-attribute">author</span>": <span class="hljs-value"><span class="hljs-string">"add1sun"</span></span>,
+      "<span class="hljs-attribute">avatar</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+      "<span class="hljs-attribute">tags</span>": <span class="hljs-value"><span class="hljs-string">""</span></span>,
+      "<span class="hljs-attribute">post_date</span>": <span class="hljs-value"><span class="hljs-string">"05/22/2011 - 01:49"</span></span>,
+      "<span class="hljs-attribute">comment_count</span>": <span class="hljs-value"><span class="hljs-string">"0"</span></span>,
+      "<span class="hljs-attribute">files</span>": <span class="hljs-value">[]
+    </span>},
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">152</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"We Value Your Feedback!"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/blog/152"</span></span>,
+      "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"We Value Your Feedback!"</span></span>,
+      "<span class="hljs-attribute">body</span>": <span class="hljs-value"><span class="hljs-string">"&lt;p&gt;We’ve been getting a lot of suggestions for Drupalize.me video training topics lately. Boy, are you people demanding! Just kidding. :-) We &lt;em&gt;really appreciate&lt;/em&gt; you letting us know about Drupal information you’re craving. &lt;strong&gt;We do read and consider your suggestions&lt;/strong&gt; as we roadmap our future content. Some of those suggestions have already led to videos in the works right now. So thank you and keep 'em coming!&lt;/p&gt;\n&lt;h3&gt;What's the best way to submit my ideas?&lt;/h3&gt;\n&lt;p&gt;&lt;img class=\"screenshot\" src=\"http://drupalize.me/sites/drupalize.me/files/videola_blog_post_files/drupalizeme-feedback.jpg\" /&gt;&lt;/p&gt;\n&lt;p&gt;If you've got ideas or requests for new videos or topics you'd love to see covered, we thought it might be helpful to know the best way to run 'em up the Drupalize.me flagpole. One of the best ways to do that is to go to click the \"Help &amp;amp; Support\" link on Drupalize.me (it hangs out on the right hand side of the page all the time) and start a new discussion. You'll see a category there for \"Feedback and Accolades\" that you can use to create a new thread with your awesome idea. This lets us track all our user feedback and suggestions nicely and allows other users to +1 your suggestion if you make it a public discussion. It also will let you know, when you go to submit your discussion, if what you've typed in seems to closely match something another person has already posted (great minds think alike you know), saving you from duplicating a request and letting you just +1 another's. Bonus! Also, if you're just wanting to look around and see what others are suggesting you can always go to &lt;a href=\"http://help.drupalize.me/discussions/suggestions\"&gt;http://help.drupalize.me/discussions/suggestions&lt;/a&gt;. Be sure to +1 anything that gets you excited too.&lt;/p&gt;\n&lt;p&gt;Our goal is to be your best resource for high-quality, relevant Drupal learning online, so keep the suggestions coming!&lt;/p&gt;\n"</span></span>,
+      "<span class="hljs-attribute">author</span>": <span class="hljs-value"><span class="hljs-string">"jponch"</span></span>,
+      "<span class="hljs-attribute">avatar</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+      "<span class="hljs-attribute">tags</span>": <span class="hljs-value"><span class="hljs-string">""</span></span>,
+      "<span class="hljs-attribute">post_date</span>": <span class="hljs-value"><span class="hljs-string">"06/03/2011 - 08:30"</span></span>,
+      "<span class="hljs-attribute">comment_count</span>": <span class="hljs-value"><span class="hljs-string">"5"</span></span>,
+      "<span class="hljs-attribute">files</span>": <span class="hljs-value">[]
+    </span>},
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">153</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Video Series on Image Styles"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/blog/153"</span></span>,
+      "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Video Series on Image Styles"</span></span>,
+      "<span class="hljs-attribute">body</span>": <span class="hljs-value"><span class="hljs-string">"&lt;p&gt;When I’m learning any software, the first thing I want to do is play with all the features and make my creation pretty, using all the bells and whistles.  I remember the first time I played with PowerPoint…I had swirling text and zig-zagging images everywhere.&lt;/p&gt;\n&lt;p&gt;With that same energy, I assume that new Drupal sitebuilders want to know how to put images in their content and manipulate them to meet their needs.  Not only is it fun to display your images with rounded corners and a sepia filter, using Drupal’s Image Styles has a very practical purpose as well.  A content administrator can upload an image of any size and Drupal will apply a series of actions on that image so that they all look consistent.  This feature automates laborious tasks like cropping and sizing to create beautiful consistency.&lt;/p&gt;\n&lt;p&gt;&lt;a href=\"http://drupalize.me/videos/using-image-styles-node-display\" title=\"Using Image Styles in Node Display\"&gt;Using Image Styles in Node Display&lt;/a&gt; is the first in a series of short videos that covers Drupal’s Image Styles.  This video will show you how to add an image field to your content type and then display it using classic preset sizes.  In the coming weeks, I will publish more videos discussing:&lt;/p&gt;\n&lt;ul class=\"fancy\"&gt;&lt;li&gt;How to create your own Image Style.&lt;/li&gt;\n&lt;li&gt;How to utilize the features in the contrib module ImageCache Actions.&lt;/li&gt;\n&lt;li&gt;How use Image Styles with Views.&lt;/li&gt;\n&lt;li&gt;How to export your Image Style into a custom module (and why that is a good idea).&lt;/li&gt;\n&lt;/ul&gt;&lt;p&gt;Images are fun and I'm excited to tell you about them!&lt;/p&gt;\n"</span></span>,
+      "<span class="hljs-attribute">author</span>": <span class="hljs-value"><span class="hljs-string">"miche"</span></span>,
+      "<span class="hljs-attribute">avatar</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+      "<span class="hljs-attribute">tags</span>": <span class="hljs-value"><span class="hljs-string">""</span></span>,
+      "<span class="hljs-attribute">post_date</span>": <span class="hljs-value"><span class="hljs-string">"06/08/2011 - 07:43"</span></span>,
+      "<span class="hljs-attribute">comment_count</span>": <span class="hljs-value"><span class="hljs-string">"0"</span></span>,
+      "<span class="hljs-attribute">files</span>": <span class="hljs-value">[]
+    </span>},
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">154</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Group Subscriptions Are Ready!"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/blog/154"</span></span>,
+      "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Group Subscriptions Are Ready!"</span></span>,
+      "<span class="hljs-attribute">body</span>": <span class="hljs-value"><span class="hljs-string">"&lt;p&gt;We're happy to announce that we've rolled out group membership options on Drupalize.me. We even created two different approaches, so that you can pick which one works best for your group. The first option will let you buy a set number of accounts for your group (see basic pricing information in our &lt;a href=\"http://drupalize.me/faq#node-148\"&gt;FAQ about groups&lt;/a&gt;) and the second gives you unlimited accounts when accessed from a particular range of IP addresses. Here is a brief overview of the two choices and how they work.&lt;/p&gt;\n&lt;!--break--&gt;&lt;h3&gt;Group package&lt;/h3&gt;\n&lt;p&gt;For the group package you select a set number of accounts that you would like to have (you can always add more later). We will create an \"owner\" account for you (or turn your existing personal account into an owner account). That owner account will then be able to create the accounts for the rest of your group. A group owner can decide who is in the group or not and reset passwords as needed.&lt;/p&gt;\n&lt;p&gt;&lt;img class=\"screenshot\" src=\"http://drupalize.me/sites/drupalize.me/files/videola_blog_post_files/group-manage.png\" /&gt;&lt;/p&gt;\n&lt;h3&gt;IP-based accounts&lt;/h3&gt;\n&lt;p&gt;Our IP-based offering is perfect for organizations that want to have a lot of accounts set up and can provide a set range of IP addresses that people are working from, for example everyone is on the same network at the office. If you purchase IP access, everyone entering Drupalize.me from your IP range will be able create their own account and use the site freely. Once they leave the IP range they will no longer be able to watch the videos on site, unless they purchase their own personal account. The nice thing about IP subscriptions is that you don't need to manage anything and you aren't restricted to a set number of accounts. You can get in touch with us to talk about pricing options for your group.&lt;/p&gt;\n&lt;h3&gt;Sign me up!&lt;/h3&gt;\n&lt;p&gt;Group subscription was our most requested feature when we talked to people at Drupalcon Chicago in March and we've worked hard to give you the choices you want. If you are interested in taking advantage of group pricing, get in touch with us through our &lt;a href=\"http://drupalize.me/contact\"&gt;contact form&lt;/a&gt; or the &lt;a href=\"http://help.drupalize.me\"&gt;support site&lt;/a&gt; and we'll work out the best plan for you.&lt;/p&gt;\n"</span></span>,
+      "<span class="hljs-attribute">author</span>": <span class="hljs-value"><span class="hljs-string">"add1sun"</span></span>,
+      "<span class="hljs-attribute">avatar</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+      "<span class="hljs-attribute">tags</span>": <span class="hljs-value"><span class="hljs-string">""</span></span>,
+      "<span class="hljs-attribute">post_date</span>": <span class="hljs-value"><span class="hljs-string">"06/15/2011 - 06:20"</span></span>,
+      "<span class="hljs-attribute">comment_count</span>": <span class="hljs-value"><span class="hljs-string">"0"</span></span>,
+      "<span class="hljs-attribute">files</span>": <span class="hljs-value">[]
+    </span>},
+    {
+      "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-number">155</span></span>,
+      "<span class="hljs-attribute">label</span>": <span class="hljs-value"><span class="hljs-string">"Introduction to Drush"</span></span>,
+      "<span class="hljs-attribute">self</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/blog/155"</span></span>,
+      "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Introduction to Drush"</span></span>,
+      "<span class="hljs-attribute">body</span>": <span class="hljs-value"><span class="hljs-string">"&lt;p&gt;Experienced developers, and new site builders alike can remember a time when installing a module meant visiting it's project page on drupal.org, downloading and unpacking it and dropping it in the correct directory. That process can be quite tedious every time there's an update if your site has dozens of modules. Thank goodness for &lt;a href=\"http://drupal.org/project/drush\"&gt;drush&lt;/a&gt;. While drush's utility certainly isn't limited to helping download modules for your site in an efficient manner, it's an absolutely invaluable tool for anyone working with Drupal sites on a regular basis. We're happy to present a new series, Introduction to Drush, with the first video, &lt;a href=\"http://drupalize.me/videos/what-drush\"&gt;What is Drush?&lt;/a&gt;, released today.&lt;/p&gt;\n&lt;p&gt;The Introduction to Drush series will cover: &lt;/p&gt;\n&lt;ul class=\"fancy\"&gt;&lt;li&gt;what it is and why drush is such an important tool&lt;/li&gt;\n&lt;li&gt;how to get drush installed on your system(s)&lt;/li&gt;\n&lt;li&gt;how to use drush for common site administration tasks&lt;/li&gt;\n&lt;li&gt;how drush can interact with your database&lt;/li&gt;\n&lt;/ul&gt;&lt;p&gt;Having the power to interact with your drush site from the command line opens up a whole new world of potential for scripting and automation. In the coming months, we have two more series about drush planned. Following this initial, introductory series we'll be covering how drush can make deployment easier, using drush make, and writing your own custom commands. If there's something particular you find drush useful for, or would like to see covered in an upcoming video, let us know.&lt;/p&gt;\n"</span></span>,
+      "<span class="hljs-attribute">author</span>": <span class="hljs-value"><span class="hljs-string">"blakehall"</span></span>,
+      "<span class="hljs-attribute">avatar</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+      "<span class="hljs-attribute">tags</span>": <span class="hljs-value"><span class="hljs-string">""</span></span>,
+      "<span class="hljs-attribute">post_date</span>": <span class="hljs-value"><span class="hljs-string">"06/29/2011 - 08:18"</span></span>,
+      "<span class="hljs-attribute">comment_count</span>": <span class="hljs-value"><span class="hljs-string">"0"</span></span>,
+      "<span class="hljs-attribute">files</span>": <span class="hljs-value">[]
+    </span>}
+  ]</span>,
+  "<span class="hljs-attribute">count</span>": <span class="hljs-value"><span class="hljs-number">467</span></span>,
+  "<span class="hljs-attribute">self</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Self"</span></span>,
+    "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/blog"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">next</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">title</span>": <span class="hljs-value"><span class="hljs-string">"Next"</span></span>,
+    "<span class="hljs-attribute">href</span>": <span class="hljs-value"><span class="hljs-string">"http://blog.local/api/v1.0/blog?range=5&amp;page=2"</span>
+  </span>}
+</span>}</code></pre><div style="height: 1px;"></div></div></div></div></div></section></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 30 Jul 2015</p><script>/* eslint-env browser */
+/* eslint quotes: [2, "single"] */
+'use strict';
+
+/*
+  Determine if a string ends with another string.
+*/
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
+/*
+  Get an array [width, height] of the window.
+*/
+function getWindowDimensions() {
+  var w = window,
+      d = document,
+      e = d.documentElement,
+      g = d.body,
+      x = w.innerWidth || e.clientWidth || g.clientWidth,
+      y = w.innerHeight || e.clientHeight || g.clientHeight;
+
+  return [x, y];
+}
+
+/*
+  Collapse or show a request/response example.
+*/
+function toggleCollapseButton(event) {
+    var button = event.target.parentNode;
+    var content = button.parentNode.nextSibling;
+    var inner = content.children[0];
+
+    if (button.className.indexOf('collapse-button') === -1) {
+      // Clicked without hitting the right element?
+      return;
+    }
+
+    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+        // Currently showing, so let's hide it
+        button.className = 'collapse-button';
+        content.style.maxHeight = '0px';
+    } else {
+        // Currently hidden, so let's show it
+        button.className = 'collapse-button show';
+        content.style.maxHeight = inner.offsetHeight + 12 + 'px';
+    }
+}
+
+/*
+  Collapse or show a navigation menu. It will not be hidden unless it
+  is currently selected or `force` has been passed.
+*/
+function toggleCollapseNav(event, force) {
+    var heading = event.target.parentNode;
+    var content = heading.nextSibling;
+    var inner = content.children[0];
+
+    if (heading.className.indexOf('heading') === -1) {
+      // Clicked without hitting the right element?
+      return;
+    }
+
+    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+      // Currently showing, so let's hide it, but only if this nav item
+      // is already selected. This prevents newly selected items from
+      // collapsing in an annoying fashion.
+      if (force || window.location.hash && endsWith(event.target.href, window.location.hash)) {
+        content.style.maxHeight = '0px';
+      }
+    } else {
+      // Currently hidden, so let's show it
+      content.style.maxHeight = inner.offsetHeight + 12 + 'px';
+    }
+}
+
+/*
+  Refresh the page after a live update from the server. This only
+  works in live preview mode (using the `--server` parameter).
+*/
+function refresh(body) {
+    document.querySelector('body').className = 'preload';
+    document.body.innerHTML = body;
+
+    // Re-initialize the page
+    init();
+    autoCollapse();
+
+    document.querySelector('body').className = '';
+}
+
+/*
+  Determine which navigation items should be auto-collapsed to show as many
+  as possible on the screen, based on the current window height. This also
+  collapses them.
+*/
+function autoCollapse() {
+  var windowHeight = getWindowDimensions()[1];
+  var itemsHeight = 64; /* Account for some padding */
+  var itemsArray = Array.prototype.slice.call(
+    document.querySelectorAll('nav .resource-group .heading'));
+
+  // Get the total height of the navigation items
+  itemsArray.forEach(function (item) {
+    itemsHeight += item.parentNode.offsetHeight;
+  });
+
+  // Should we auto-collapse any nav items? Try to find the smallest item
+  // that can be collapsed to show all items on the screen. If not possible,
+  // then collapse the largest item and do it again. First, sort the items
+  // by height from smallest to largest.
+  var sortedItems = itemsArray.sort(function (a, b) {
+    return a.parentNode.offsetHeight - b.parentNode.offsetHeight;
+  });
+
+  while (sortedItems.length && itemsHeight > windowHeight) {
+    for (var i = 0; i < sortedItems.length; i++) {
+      // Will collapsing this item help?
+      var itemHeight = sortedItems[i].nextSibling.offsetHeight;
+      if ((itemsHeight - itemHeight <= windowHeight) || i === sortedItems.length - 1) {
+        // It will, so let's collapse it, remove its content height from
+        // our total and then remove it from our list of candidates
+        // that can be collapsed.
+        itemsHeight -= itemHeight;
+        toggleCollapseNav({target: sortedItems[i].children[0]}, true);
+        sortedItems.splice(i, 1);
+        break;
+      }
+    }
+  }
+}
+
+/*
+  Initialize the interactive functionality of the page.
+*/
+function init() {
+    var i;
+
+    // Make collapse buttons clickable
+    var buttons = document.querySelectorAll('.collapse-button');
+    for (i = 0; i < buttons.length; i++) {
+        buttons[i].onclick = toggleCollapseButton;
+
+        // Show by default? Then toggle now.
+        if (buttons[i].className.indexOf('show') !== -1) {
+            toggleCollapseButton({target: buttons[i].children[0]});
+        }
+    }
+
+    // Make nav items clickable to collapse/expand their content.
+    var navItems = document.querySelectorAll('nav .resource-group .heading');
+    for (i = 0; i < navItems.length; i++) {
+        navItems[i].onclick = toggleCollapseNav;
+
+        // Show all by default
+        toggleCollapseNav({target: navItems[i].children[0]});
+    }
+}
+
+// Initial call to set up buttons
+init();
+
+window.onload = function () {
+    autoCollapse();
+    // Remove the `preload` class to enable animations
+    document.querySelector('body').className = '';
+};
+</script></body></html>

@@ -1,0 +1,255 @@
+FORMAT: 1A
+HOST: http://blog.local
+
+# Decoupled Blog API
+
+# Decoupled Blog Demo [/api]
+
+This is a simple API that allows our Drupal blog to expose enough data to build a simple decoupled blog.
+
+This resource lists the available API endpoints.
+
+Currently these include: users, login_cookie, csrf_token, siteinfo,
+blog_post, and menus.
+
+This information is also available at /api/v1.0 which would allow us to version the API in the future, as changes are necessary.
+
+## API Entry Point [/api/v1.0]
+
+## API Data [GET]
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+            "data": [
+                {
+                    "label": "User",
+                    "description": "Export the \"User\" entity.",
+                    "name": "users__1_0",
+                    "resource": "users",
+                    "major_version": 1,
+                    "minor_version": 0,
+                    "self": "http://blog.local/api/v1.0/users"
+                },
+                {
+                    "label": "Login",
+                    "description": "Login a user and return a JSON along with the authentication cookie.",
+                    "name": "login_cookie__1_0",
+                    "resource": "login_cookie",
+                    "major_version": 1,
+                    "minor_version": 0,
+                    "self": "http://blog.local/api/login"
+                },
+                {
+                    "label": "CSRF token",
+                    "description": "Export the CSRF token unique for each user.",
+                    "name": "csrf_token",
+                    "resource": "csrf_token",
+                    "major_version": 1,
+                    "minor_version": 0,
+                    "self": "http://blog.local/api/session/token"
+                },
+                {
+                    "label": "Site information",
+                    "description": "Expose some basic site information",
+                    "name": "siteinfo__1_0",
+                    "resource": "siteinfo",
+                    "major_version": 1,
+                    "minor_version": 0,
+                    "self": "http://blog.local/api/v1.0/siteinfo"
+                },
+                {
+                    "label": "Blog Post",
+                    "description": "Export the blog_post content type.",
+                    "name": "blog_post",
+                    "resource": "blog",
+                    "major_version": 1,
+                    "minor_version": 0,
+                    "self": "http://blog.local/api/v1.0/blog"
+                },
+                {
+                    "label": "Menus",
+                    "description": "Expose the menu structures",
+                    "name": "menus__1_0",
+                    "resource": "menus",
+                    "major_version": 1,
+                    "minor_version": 0,
+                    "self": "http://blog.local/api/v1.0/menus"
+                }
+            ],
+            "count": 6,
+            "self": {
+                "title": "Self",
+                "href": "http://blog.local/api"
+            }
+        }
+
+
+## Users [/api/v1.0/users{?range}]
+
+A list of User resources. A call to /users will list user objects.
+
++ Parameters
+  + range (number, optional, `5`) - The number of results you'd like per page.
+
+### Retrieve users [GET]
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+            "data": [
+                {
+                    "id": "1",
+                    "label": "admin",
+                    "self": "http://blog.local/api/v1.0/users/1",
+                    "mail": "blog@example.com"
+                },
+                {
+                    "id": "4",
+                    "label": "tevoke",
+                    "self": "http://blog.local/api/v1.0/users/4",
+                    "mail": "tevoke@blog.local.invalid"
+                },
+                {
+                    "id": "5",
+                    "label": "thabrufracr",
+                    "self": "http://blog.local/api/v1.0/users/5",
+                    "mail": "thabrufracr@blog.local.invalid"
+                },
+                {
+                    "id": "6",
+                    "label": "stacle",
+                    "self": "http://blog.local/api/v1.0/users/6",
+                    "mail": "stacle@blog.local.invalid"
+                },
+                {
+                    "id": "7",
+                    "label": "besliwraphu",
+                    "self": "http://blog.local/api/v1.0/users/7",
+                    "mail": "besliwraphu@blog.local.invalid"
+                }
+            ],
+            "count": 12385,
+            "self": {
+                "title": "Self",
+                "href": "http://blog.local/api/v1.0/users"
+            },
+            "next": {
+                "title": "Next",
+                "href": "http://blog.local/api/v1.0/users?range=5&page=2"
+            }
+        }
+
+### Users by id [/api/v1.0/users/{id}]
+
++ Parameters
+  + id (number, required, `1`) - The particular user id of interest.
+
+#### Retrieve a user [GET]
+
++ Response 200 (application/json; charset=utf-8)
+
+            {
+                "data": [
+                    {
+                        "id": "1",
+                        "label": "admin",
+                        "self": "http://blog.local/api/v1.0/users/1",
+                        "mail": "blog@example.com"
+                    }
+                ],
+                "self": {
+                    "title": "Self",
+                    "href": "http://blog.local/api/v1.0/users/1"
+                }
+            }
+
+## Blog Posts [/api/v1.0/blog{?range}]
+
+A list of blog posts. You can use the optional range parameter to limit the number of results that are returned.
+
++ Parameters
+  + range (number, optional, `5`) - The number of results you'd like per page.
+
+### Retrieve posts [GET]
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+            "data": [
+                {
+                    "id": 151,
+                    "label": "The Command Line Basics Series",
+                    "self": "http://blog.local/api/v1.0/blog/151",
+                    "title": "The Command Line Basics Series",
+                    "body": "<p><img class=\"left\" src=\"http://drupalize.me/sites/drupalize.me/files/videola_blog_post_files/icon_terminal.png\" />In the last few weeks you may have noticed we've been releasing a series of free videos about using the command line: Command Line Basics. There are a total of 12 videos in the series, each only between 6 to 15 minutes long, and we'll be continuing to release them over the coming weeks until we get them all out there. The entire series will be free. These videos were originally created for Lullabot.com but we decided they were such useful videos that we wanted to make sure our Drupalize.me members got a chance to see them, as well as have extra niceties, like being able to add them to your queue.</p>\n<p>The Command Line Basics series covers a lot of the basic tasks that you need to use a *nix command line (like Linux and Unix, even Mac OS X since that is a Unix-based operating system). Many people come to learning the command line much like I did, out of necessity, not desire. I was tossed into situations where I had to log in to a server and didn't have all of my comfortable GUI tools to help me. I made these videos with a complete beginner in mind, although I found some new tricks along the way while making them, and even if you are comfortable on the command line you may find a trick or two worth keeping as well.</p>\n<p>This series starts out with simple tasks like just getting around and moving your files. It then goes on to cover permissions, archiving (zip and tar), symbolic links, connecting to a remote server securely (ssh and scp), and searching (locate, find and grep). There are also three videos to cover the basics of using the command line text editor vi (and vim), which I found to be essential when I was thrown onto the servers. The series finishes up with a video about all kinds of keyboard shortcuts you can use to speed things up.</p>\n<p>You can find the series in our new <a href=\"http://drupalize.me/videos/cat/272\">Tools &amp; Tips</a> video category. I hope you find the series as useful as I do (I sometimes still refer to my own videos :-)) and I look forward to getting more videos out the door soon.</p>\n",
+                    "author": "add1sun",
+                    "avatar": null,
+                    "tags": "",
+                    "post_date": "05/22/2011 - 01:49",
+                    "comment_count": "0",
+                    "files": []
+                },
+                {
+                    "id": 152,
+                    "label": "We Value Your Feedback!",
+                    "self": "http://blog.local/api/v1.0/blog/152",
+                    "title": "We Value Your Feedback!",
+                    "body": "<p>We’ve been getting a lot of suggestions for Drupalize.me video training topics lately. Boy, are you people demanding! Just kidding. :-) We <em>really appreciate</em> you letting us know about Drupal information you’re craving. <strong>We do read and consider your suggestions</strong> as we roadmap our future content. Some of those suggestions have already led to videos in the works right now. So thank you and keep 'em coming!</p>\n<h3>What's the best way to submit my ideas?</h3>\n<p><img class=\"screenshot\" src=\"http://drupalize.me/sites/drupalize.me/files/videola_blog_post_files/drupalizeme-feedback.jpg\" /></p>\n<p>If you've got ideas or requests for new videos or topics you'd love to see covered, we thought it might be helpful to know the best way to run 'em up the Drupalize.me flagpole. One of the best ways to do that is to go to click the \"Help &amp; Support\" link on Drupalize.me (it hangs out on the right hand side of the page all the time) and start a new discussion. You'll see a category there for \"Feedback and Accolades\" that you can use to create a new thread with your awesome idea. This lets us track all our user feedback and suggestions nicely and allows other users to +1 your suggestion if you make it a public discussion. It also will let you know, when you go to submit your discussion, if what you've typed in seems to closely match something another person has already posted (great minds think alike you know), saving you from duplicating a request and letting you just +1 another's. Bonus! Also, if you're just wanting to look around and see what others are suggesting you can always go to <a href=\"http://help.drupalize.me/discussions/suggestions\">http://help.drupalize.me/discussions/suggestions</a>. Be sure to +1 anything that gets you excited too.</p>\n<p>Our goal is to be your best resource for high-quality, relevant Drupal learning online, so keep the suggestions coming!</p>\n",
+                    "author": "jponch",
+                    "avatar": null,
+                    "tags": "",
+                    "post_date": "06/03/2011 - 08:30",
+                    "comment_count": "5",
+                    "files": []
+                },
+                {
+                    "id": 153,
+                    "label": "Video Series on Image Styles",
+                    "self": "http://blog.local/api/v1.0/blog/153",
+                    "title": "Video Series on Image Styles",
+                    "body": "<p>When I’m learning any software, the first thing I want to do is play with all the features and make my creation pretty, using all the bells and whistles.  I remember the first time I played with PowerPoint…I had swirling text and zig-zagging images everywhere.</p>\n<p>With that same energy, I assume that new Drupal sitebuilders want to know how to put images in their content and manipulate them to meet their needs.  Not only is it fun to display your images with rounded corners and a sepia filter, using Drupal’s Image Styles has a very practical purpose as well.  A content administrator can upload an image of any size and Drupal will apply a series of actions on that image so that they all look consistent.  This feature automates laborious tasks like cropping and sizing to create beautiful consistency.</p>\n<p><a href=\"http://drupalize.me/videos/using-image-styles-node-display\" title=\"Using Image Styles in Node Display\">Using Image Styles in Node Display</a> is the first in a series of short videos that covers Drupal’s Image Styles.  This video will show you how to add an image field to your content type and then display it using classic preset sizes.  In the coming weeks, I will publish more videos discussing:</p>\n<ul class=\"fancy\"><li>How to create your own Image Style.</li>\n<li>How to utilize the features in the contrib module ImageCache Actions.</li>\n<li>How use Image Styles with Views.</li>\n<li>How to export your Image Style into a custom module (and why that is a good idea).</li>\n</ul><p>Images are fun and I'm excited to tell you about them!</p>\n",
+                    "author": "miche",
+                    "avatar": null,
+                    "tags": "",
+                    "post_date": "06/08/2011 - 07:43",
+                    "comment_count": "0",
+                    "files": []
+                },
+                {
+                    "id": 154,
+                    "label": "Group Subscriptions Are Ready!",
+                    "self": "http://blog.local/api/v1.0/blog/154",
+                    "title": "Group Subscriptions Are Ready!",
+                    "body": "<p>We're happy to announce that we've rolled out group membership options on Drupalize.me. We even created two different approaches, so that you can pick which one works best for your group. The first option will let you buy a set number of accounts for your group (see basic pricing information in our <a href=\"http://drupalize.me/faq#node-148\">FAQ about groups</a>) and the second gives you unlimited accounts when accessed from a particular range of IP addresses. Here is a brief overview of the two choices and how they work.</p>\n<!--break--><h3>Group package</h3>\n<p>For the group package you select a set number of accounts that you would like to have (you can always add more later). We will create an \"owner\" account for you (or turn your existing personal account into an owner account). That owner account will then be able to create the accounts for the rest of your group. A group owner can decide who is in the group or not and reset passwords as needed.</p>\n<p><img class=\"screenshot\" src=\"http://drupalize.me/sites/drupalize.me/files/videola_blog_post_files/group-manage.png\" /></p>\n<h3>IP-based accounts</h3>\n<p>Our IP-based offering is perfect for organizations that want to have a lot of accounts set up and can provide a set range of IP addresses that people are working from, for example everyone is on the same network at the office. If you purchase IP access, everyone entering Drupalize.me from your IP range will be able create their own account and use the site freely. Once they leave the IP range they will no longer be able to watch the videos on site, unless they purchase their own personal account. The nice thing about IP subscriptions is that you don't need to manage anything and you aren't restricted to a set number of accounts. You can get in touch with us to talk about pricing options for your group.</p>\n<h3>Sign me up!</h3>\n<p>Group subscription was our most requested feature when we talked to people at Drupalcon Chicago in March and we've worked hard to give you the choices you want. If you are interested in taking advantage of group pricing, get in touch with us through our <a href=\"http://drupalize.me/contact\">contact form</a> or the <a href=\"http://help.drupalize.me\">support site</a> and we'll work out the best plan for you.</p>\n",
+                    "author": "add1sun",
+                    "avatar": null,
+                    "tags": "",
+                    "post_date": "06/15/2011 - 06:20",
+                    "comment_count": "0",
+                    "files": []
+                },
+                {
+                    "id": 155,
+                    "label": "Introduction to Drush",
+                    "self": "http://blog.local/api/v1.0/blog/155",
+                    "title": "Introduction to Drush",
+                    "body": "<p>Experienced developers, and new site builders alike can remember a time when installing a module meant visiting it's project page on drupal.org, downloading and unpacking it and dropping it in the correct directory. That process can be quite tedious every time there's an update if your site has dozens of modules. Thank goodness for <a href=\"http://drupal.org/project/drush\">drush</a>. While drush's utility certainly isn't limited to helping download modules for your site in an efficient manner, it's an absolutely invaluable tool for anyone working with Drupal sites on a regular basis. We're happy to present a new series, Introduction to Drush, with the first video, <a href=\"http://drupalize.me/videos/what-drush\">What is Drush?</a>, released today.</p>\n<p>The Introduction to Drush series will cover: </p>\n<ul class=\"fancy\"><li>what it is and why drush is such an important tool</li>\n<li>how to get drush installed on your system(s)</li>\n<li>how to use drush for common site administration tasks</li>\n<li>how drush can interact with your database</li>\n</ul><p>Having the power to interact with your drush site from the command line opens up a whole new world of potential for scripting and automation. In the coming months, we have two more series about drush planned. Following this initial, introductory series we'll be covering how drush can make deployment easier, using drush make, and writing your own custom commands. If there's something particular you find drush useful for, or would like to see covered in an upcoming video, let us know.</p>\n",
+                    "author": "blakehall",
+                    "avatar": null,
+                    "tags": "",
+                    "post_date": "06/29/2011 - 08:18",
+                    "comment_count": "0",
+                    "files": []
+                }
+            ],
+            "count": 467,
+            "self": {
+                "title": "Self",
+                "href": "http://blog.local/api/v1.0/blog"
+            },
+            "next": {
+                "title": "Next",
+                "href": "http://blog.local/api/v1.0/blog?range=5&page=2"
+            }
+        }
