@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Provide an API for blog_post nodes (based on the RESTful module).
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function restful_api_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'restful') {
+    return 'plugins/' . $plugin;
+  }
+}
