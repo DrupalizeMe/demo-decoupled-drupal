@@ -2,3 +2,4 @@ name = Restful API
 description = Provide an API for our simple Blog site.
 core = 7.x
 dependencies[] = restful
+dependencies[] = ctools
